@@ -216,12 +216,24 @@ class Tools:
 
         payload = {"prompt": workflow, "client_id": prompt_id}
 
-        r = requests.post(f"{self.COMFY_HOST}/prompt", json=payload, timeout=1200)
-
+        # Submit the workflow to ComfyUI
+        r = requests.post(f"{self.COMFY_HOST}/prompt", json=payload, timeout=30)
+        
         if r.status_code != 200:
             raise Exception(f"ComfyUI error {r.status_code}: {r.text}")
+        
+        # Extract prompt_id from the response
+        resp_json = r.json()
+        prompt_id = resp_json.get("prompt_id")
+        if not prompt_id:
+            raise Exception(f"No prompt_id returned from ComfyUI: {resp_json}")
+        
+        # Poll for output with extended timeout (15 minutes)
+        result = Tools._poll_for_output(prompt_id=prompt_id, timeout=900)  # 900 seconds = 15 minutes
+        
+        # You can return the prompt_id or the actual result depending on what you need
+        return prompt_id  # or `return result` if you want the final video object
 
-        return prompt_id
 
     def _poll_for_output(self, prompt_id: str) -> str:
         history_url = f"{self.COMFY_HOST}/history/{prompt_id}"
