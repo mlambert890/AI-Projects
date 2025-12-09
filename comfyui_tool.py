@@ -13,7 +13,7 @@ class Tools:
     - Prevents OWUI from rewriting Comfy URLs
     """
 
-    COMFY_HOST = "http://127.0.0.1:8188"
+    COMFY_HOST = "http://1270.0.0.1:8188"
     POLL_INTERVAL = 5
     MAX_WAIT = 15 * 60
 
@@ -173,8 +173,7 @@ class Tools:
                 return {
                     "status": "completed",
                     "prompt_id": prompt_id,
-                    "comfy_view_url": video_url,   # ✅ SAFE KEY (prevents OWUI rewrite)
-                    "message": "Video generation complete. Open the URL directly in your browser.",
+                    "DOWNLOAD": video_url,
                 }
 
         if completed:
