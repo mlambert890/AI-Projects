@@ -13,7 +13,7 @@ class Tools:
     - Prevents OWUI from rewriting Comfy URLs
     """
 
-    COMFY_HOST = "http://1270.0.0.1:8188"
+    COMFY_HOST = "http://127.0.0.1:8188"
     POLL_INTERVAL = 5
     MAX_WAIT = 15 * 60
 
